@@ -5,6 +5,23 @@ const chatForm = document.getElementById("chat-form");
 const chatInput = document.getElementById("chat-input");
 const fileInput = document.getElementById("file-input");
 
+const filePreview = document.getElementById("file-preview");
+
+// Event saat user memilih file
+fileInput.addEventListener("change", () => {
+  filePreview.innerHTML = ""; // reset tampilan
+
+  if (fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    const fileIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+      d="M12 4v16m8-8H4" />
+    </svg>`;
+
+    filePreview.innerHTML = `${fileIcon} <span>📎 File terpilih: <strong>${file.name}</strong></span>`;
+  }
+});
+
 let session_id = crypto.randomUUID();
 
 chatInput.addEventListener("input", () => {
