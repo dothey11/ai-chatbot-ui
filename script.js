@@ -21,7 +21,16 @@ function addMessage(content, sender = "bot") {
   messageDiv.classList.add(`${sender}-message`);
   const msg = document.createElement("div");
   msg.classList.add("message");
-  msg.textContent = content;
+  
+  // Jika pesan dari bot, render markdown jadi HTML
+  if (sender === "bot") {
+    msg.innerHTML = marked.parse(content);
+  } else {
+    msg.textContent = content; // user tetap plain text
+  }
+
+
+  
   messageDiv.appendChild(msg);
   chatBox.appendChild(messageDiv);
   scrollToBottom();
