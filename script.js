@@ -49,14 +49,36 @@ chatForm.addEventListener("submit", async (e) => {
 
   addMessage("⏳ Sedang diproses...", "bot");
 
-  try {
-    const response = await fetch(WEBHOOK_URL, { method: "POST", body: formData });
-    const data = await response.json();
-    const reply = data.AIResponse || "⚠️ Tidak ada respons dari AI.";
-    document.querySelectorAll(".bot-message .message").slice(-1)[0].textContent = reply;
-  } catch (err) {
-    addMessage("❌ Terjadi kesalahan menghubungi server n8n.", "bot");
+try {
+  const response = await fetch(webhookUrl, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
   }
+
+  let resultText = await response.text(); // pakai text() dulu agar fleksibel
+  let data;
+
+  try {
+    data = JSON.parse(resultText); // coba parse ke JSON
+  } catch {
+    // fallback: treat as plain text
+    data = { AIResponse: resultText };
+  }
+
+  if (data.AIResponse) {
+    displayMessage(data.AIResponse, "bot");
+  } else {
+    displayMessage("⚠️ Tidak ada respons dari server n8n.", "bot");
+  }
+
+} catch (error) {
+  console.error("Fetch Error:", error);
+  displayMessage("❌ Terjadi kesalahan menghubungi server n8n.", "bot");
+}
 
   fileInput.value = "";
 });
