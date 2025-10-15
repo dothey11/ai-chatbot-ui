@@ -1,33 +1,323 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Agen AI Chatbot</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-</head>
-<body>
-  <div class="chat-container">
-    <header class="chat-header">
-      <i class='bx bx-bot'></i>
-      <h2>Agen AI</h2>
-    </header>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agen AI Profesional</title>
 
-    <div id="chat-box" class="chat-box">
-      <div class="bot-message">
-        <div class="message">Halo 👋 Saya nama saya Dothey, saya Agen AI. Silakan ketik pertanyaan Anda atau upload file untuk dianalisis.</div>
-      </div>
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      margin: 0;
+      background: radial-gradient(circle at top, #0b1220, #000);
+      background-image: url('https://images.unsplash.com/photo-1605902711622-cfb43c4437b5?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .chat-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      backdrop-filter: blur(8px);
+      padding: 20px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+    }
+
+    .bot-avatar {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
+      animation: pulse 3s infinite ease-in-out;
+    }
+
+    .bot-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.9;
+      filter: saturate(1.3);
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 25px rgba(0, 255, 255, 0.4); transform: scale(1); }
+      50% { box-shadow: 0 0 40px rgba(0, 255, 255, 0.8); transform: scale(1.05); }
+    }
+
+    .chat-container {
+      width: 400px;
+      height: 600px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .chat-header {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 18px;
+      text-align: center;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 8px cyan;
+    }
+
+    .chat-box {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      padding: 10px 14px;
+      border-radius: 12px;
+      max-width: 80%;
+      word-wrap: break-word;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .user-message {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #0078ff, #00c6ff);
+      border-bottom-right-radius: 0;
+    }
+
+    .bot-message {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.2);
+      border-bottom-left-radius: 0;
+    }
+
+    .chat-input-area {
+      display: flex;
+      align-items: flex-end;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .chat-input-area textarea {
+      flex: 1;
+      resize: none;
+      overflow-y: hidden;
+      padding: 10px 14px;
+      border-radius: 16px;
+      border: none;
+      outline: none;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 0.95em;
+      max-height: 150px;
+      transition: all 0.2s ease;
+    }
+
+    .chat-input-area textarea::placeholder {
+      color: #ccc;
+    }
+
+    .chat-input-area button {
+      background: linear-gradient(135deg, #00c6ff, #0078ff);
+      border: none;
+      color: #fff;
+      padding: 10px 13px;
+      margin-left: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.3s;
+      align-self: flex-end;
+    }
+
+    .chat-input-area button:hover {
+      transform: scale(1.1);
+    }
+
+    .file-upload label {
+      cursor: pointer;
+      color: #00e1ff;
+      font-size: 1.3em;
+      margin-left: 10px;
+      align-self: flex-end;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+    }
+
+    .loading-dots span {
+      display: inline-block;
+      animation: blink 1.4s infinite both;
+    }
+
+    .loading-dots span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .loading-dots span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0; }
+      40% { opacity: 1; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="chat-wrapper">
+    <!-- Bot Avatar -->
+    <div class="bot-avatar">
+      <img src="https://cdn.pixabay.com/photo/2022/09/18/08/08/robot-7461149_1280.png" alt="AI Bot">
     </div>
 
-    <form id="chat-form" class="chat-form">
-      <textarea id="chat-input" name="chatInput" placeholder="Tulis pesan di sini..." rows="1"></textarea>
-      <label for="file-input" class="upload-btn"><i class='bx bx-paperclip'></i></label>
-      <input type="file" id="file-input" name="files" hidden />
-      <button type="submit" id="send-btn"><i class='bx bx-send'></i></button>
-    </form>
+    <!-- Chat UI -->
+    <div class="chat-container">
+      <div class="chat-header">🤖 Agen AI Profesional</div>
+
+      <div class="chat-box" id="chat-box">
+        <div class="bot-message message">
+          Halo! Saya <b>Agen AI</b> Anda.<br>
+          Ketik pertanyaan atau unggah file untuk saya bantu analisis.
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <textarea id="chatInput" placeholder="Ketik pesan Anda..." rows="1"></textarea>
+        <div class="file-upload">
+          <label for="fileInput"><i class="fas fa-paperclip"></i></label>
+          <input type="file" id="fileInput" hidden>
+        </div>
+        <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const webhookUrl = "https://your-n8n-webhook-url"; // Ganti dengan webhook n8n Anda
+    const chatBox = document.getElementById("chat-box");
+    const chatInput = document.getElementById("chatInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const fileInput = document.getElementById("fileInput");
+
+    const session_id = Math.random().toString(36).substring(2, 10);
+
+    function appendMessage(sender, text) {
+      const msg = document.createElement("div");
+      msg.classList.add("message", sender === "user" ? "user-message" : "bot-message");
+      msg.innerHTML = text;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function appendLoading() {
+      const msg = document.createElement("div");
+      msg.classList.add("bot-message", "message");
+      msg.innerHTML = `<div class="loading-dots"><span>.</span><span>.</span><span>.</span></div>`;
+      msg.id = "loadingMessage";
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function removeLoading() {
+      const loading = document.getElementById("loadingMessage");
+      if (loading) loading.remove();
+    }
+
+    async function sendMessage() {
+      const text = chatInput.value.trim();
+      if (!text) return;
+      appendMessage("user", text);
+      chatInput.value = "";
+      chatInput.style.height = "auto";
+      appendLoading();
+
+      const formData = new FormData();
+      formData.append("chatInput", text);
+      formData.append("session_id", session_id);
+
+      try {
+        const res = await fetch(webhookUrl, { method: "POST", body: formData });
+        const data = await res.json();
+        removeLoading();
+        appendMessage("bot", data.AIResponse || "Tidak ada respon dari AI.");
+      } catch {
+        removeLoading();
+        appendMessage("bot", "⚠️ Terjadi kesalahan koneksi ke server.");
+      }
+    }
+
+    async function sendFile(file) {
+      appendMessage("user", `📁 Mengunggah file: <b>${file.name}</b>`);
+      appendLoading();
+
+      const formData = new FormData();
+      formData.append("files", file);
+      formData.append("session_id", session_id);
+
+      try {
+        const res = await fetch(webhookUrl, { method: "POST", body: formData });
+        const data = await res.json();
+        removeLoading();
+        appendMessage("bot", data.AIResponse || "File diterima, tetapi tidak ada respon dari AI.");
+      } catch {
+        removeLoading();
+        appendMessage("bot", "⚠️ Gagal mengirim file ke server.");
+      }
+    }
+
+    // --- Auto-resize textarea seperti ChatGPT ---
+    chatInput.addEventListener("input", () => {
+      chatInput.style.height = "auto";
+      chatInput.style.height = chatInput.scrollHeight + "px";
+    });
+
+    sendBtn.addEventListener("click", sendMessage);
+    chatInput.addEventListener("keypress", e => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      if (file) sendFile(file);
+    });
+  </script>
 </body>
 </html>
