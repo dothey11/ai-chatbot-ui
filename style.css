@@ -138,3 +138,30 @@ height: 100vh;
 .upload-btn:hover, #send-btn:hover {
   color: #fff;
 }
+
+.message {
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.bot-message .message strong {
+  font-weight: 600;
+  color: #00bfff;
+}
+
+.bot-message .message em {
+  color: #aee1ff;
+}
+
+.bot-message .message ul {
+  margin: 0.5em 0;
+  padding-left: 1.5em;
+}
+
+.bot-message .message code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-family: monospace;
+  color: #ffecb3;
+}
