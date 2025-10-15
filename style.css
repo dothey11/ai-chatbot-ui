@@ -89,11 +89,26 @@ height: 100vh;
   word-wrap: break-word;
 }
 
+/* ==== Pesan greeting awal (bot pertama) ==== */
+.bot-message:first-child .message {
+  line-height: 1.6;
+  font-size: 1rem;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 14px 16px;
+  border-radius: 12px;
+  color: #eaf6ff;
+  white-space: pre-line;
+}
+
+
 .user-message .message {
   background: #0078ff;
   color: #fff;
   align-self: flex-end;
 }
+
+
 
 .bot-message .message {
   background: rgba(255, 255, 255, 0.1);
@@ -184,4 +199,9 @@ height: 100vh;
   width: 18px;
   height: 18px;
   color: #00bfff;
+}
+
+.bot-message:not(:first-child) .message {
+  background: rgba(255, 255, 255, 0.1);
+  color: #d8eaff;
 }
