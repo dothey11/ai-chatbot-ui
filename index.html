@@ -11,20 +11,24 @@
 
 <body>
   <div class="chat-container">
+    <!-- HEADER -->
     <header class="chat-header">
       <i class='bx bx-bot'></i>
       <h2>Agen AI</h2>
     </header>
 
-    <div id="chat-box" class="chat-box">
-      <div class="bot-message">
-        <div class="message">
-          Halo 👋 Nama saya <b>Dothey</b>, saya Agen AI.<br><br>
-          Silakan ketik pertanyaan Anda atau upload file untuk dianalisis.
-        </div>
-      </div>
-    </div>
+    <!-- GREETING AREA (di luar chat box) -->
+    <section class="greeting">
+      <p>
+        Halo 👋 Nama saya <b>Dothey</b>, saya Agen AI.<br>
+        Silakan ketik pertanyaan Anda atau upload file untuk dianalisis.
+      </p>
+    </section>
 
+    <!-- CHAT AREA -->
+    <div id="chat-box" class="chat-box"></div>
+
+    <!-- INPUT AREA -->
     <form id="chat-form" class="chat-form">
       <textarea id="chat-input" name="chatInput" placeholder="Tulis pesan di sini..." rows="1"></textarea>
       <label for="file-input" class="upload-btn"><i class='bx bx-paperclip'></i></label>
@@ -32,7 +36,7 @@
       <button type="submit" id="send-btn"><i class='bx bx-send'></i></button>
     </form>
 
-    <!-- Preview file tampil di bawah form -->
+    <!-- PREVIEW FILE -->
     <div id="file-preview" class="file-preview"></div>
   </div>
 
