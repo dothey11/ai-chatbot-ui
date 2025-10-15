@@ -1,29 +1,13 @@
-
-const WEBHOOK_URL = "https://n8n-pqwczqzamttu.n8x.my.id/webhook/ai_dothey";  
+const WEBHOOK_URL = "https://n8n-pqwczqzamttu.n8x.my.id/webhook/ai_dothey";
 const chatBox = document.getElementById("chat-box");
 const chatForm = document.getElementById("chat-form");
 const chatInput = document.getElementById("chat-input");
 const fileInput = document.getElementById("file-input");
-
 const filePreview = document.getElementById("file-preview");
-
-// Event saat user memilih file
-fileInput.addEventListener("change", () => {
-  filePreview.innerHTML = ""; // reset tampilan
-
-  if (fileInput.files.length > 0) {
-    const file = fileInput.files[0];
-    const fileIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-      d="M12 4v16m8-8H4" />
-    </svg>`;
-
-    filePreview.innerHTML = `${fileIcon} <span>📎 File terpilih: <strong>${file.name}</strong></span>`;
-  }
-});
 
 let session_id = crypto.randomUUID();
 
+// === Auto grow textarea ===
 chatInput.addEventListener("input", () => {
   chatInput.style.height = "auto";
   chatInput.style.height = chatInput.scrollHeight + "px";
@@ -33,26 +17,45 @@ function scrollToBottom() {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+// === Render pesan di UI ===
 function addMessage(content, sender = "bot") {
   const messageDiv = document.createElement("div");
   messageDiv.classList.add(`${sender}-message`);
   const msg = document.createElement("div");
   msg.classList.add("message");
-  
-  // Jika pesan dari bot, render markdown jadi HTML
+
   if (sender === "bot") {
     msg.innerHTML = marked.parse(content);
   } else {
-    msg.textContent = content; // user tetap plain text
+    msg.textContent = content;
   }
 
-
-  
   messageDiv.appendChild(msg);
   chatBox.appendChild(messageDiv);
   scrollToBottom();
 }
 
+// === Preview nama file saat user pilih ===
+fileInput.addEventListener("change", () => {
+  filePreview.innerHTML = "";
+
+  if (fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    filePreview.innerHTML = `
+      <i class='bx bx-file'></i>
+      <span>📎 File terpilih: <strong>${file.name}</strong></span>
+      <i class='bx bx-x-circle remove-file' style="cursor:pointer;color:#ff7675;"></i>
+    `;
+
+    // tombol untuk menghapus file yang dipilih
+    document.querySelector(".remove-file").addEventListener("click", () => {
+      fileInput.value = "";
+      filePreview.innerHTML = "";
+    });
+  }
+});
+
+// === Proses kirim chat / file ===
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -62,13 +65,14 @@ chatForm.addEventListener("submit", async (e) => {
   if (!text && !file) return;
 
   if (text) addMessage(text, "user");
+  if (file) addMessage(`📤 Mengirim file: ${file.name}`, "user");
+
   chatInput.value = "";
   chatInput.style.height = "auto";
 
   const formData = new FormData();
   formData.append("session_id", session_id);
   if (file) formData.append("files", file);
-  addMessage(file, "bot");
   if (text) formData.append("chatInput", text);
 
   addMessage("⏳ Sedang menghubungi AI Agent...", "bot");
@@ -113,5 +117,5 @@ chatForm.addEventListener("submit", async (e) => {
   }
 
   fileInput.value = "";
+  filePreview.innerHTML = ""; // hapus preview setelah terkirim
 });
-
