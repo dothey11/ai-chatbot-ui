@@ -165,3 +165,22 @@ height: 100vh;
   font-family: monospace;
   color: #ffecb3;
 }
+
+.file-preview {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #aee1ff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 6px 10px;
+  border-radius: 10px;
+  max-width: 80%;
+}
+
+.file-preview svg {
+  width: 18px;
+  height: 18px;
+  color: #00bfff;
+}
