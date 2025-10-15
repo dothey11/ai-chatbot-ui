@@ -1,5 +1,5 @@
 
-const WEBHOOK_URL = "https://n8n-pqwczqzamttu.n8x.my.id/webhook/ai_dothey";
+const WEBHOOK_URL = "https://n8n-pqwczqzamttu.n8x.my.id/webhook/ai_dothey";  
 const chatBox = document.getElementById("chat-box");
 const chatForm = document.getElementById("chat-form");
 const chatInput = document.getElementById("chat-input");
