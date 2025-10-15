@@ -51,6 +51,7 @@ chatForm.addEventListener("submit", async (e) => {
   const formData = new FormData();
   formData.append("session_id", session_id);
   if (file) formData.append("files", file);
+  addMessage(file, "bot");
   if (text) formData.append("chatInput", text);
 
   addMessage("⏳ Sedang menghubungi AI Agent...", "bot");
