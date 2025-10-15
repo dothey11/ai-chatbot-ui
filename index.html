@@ -19,7 +19,10 @@
 
     <div id="chat-box" class="chat-box">
       <div class="bot-message">
-        <div class="message">Halo 👋 Nama saya Dothey, Saya Agen AI. Silakan ketik pertanyaan Anda atau upload file untuk dianalisis.</div>
+        <div class="message">
+          Halo 👋 Nama saya <b>Dothey</b>, Saya Agen AI.<br>
+          Silakan ketik pertanyaan Anda atau upload file untuk dianalisis.
+        </div>
       </div>
     </div>
 
@@ -28,8 +31,11 @@
       <label for="file-input" class="upload-btn"><i class='bx bx-paperclip'></i></label>
       <input type="file" id="file-input" name="files" hidden />
       <button type="submit" id="send-btn"><i class='bx bx-send'></i></button>
-      <div id="file-preview" class="file-preview"></div>
     </form>
+
+    <!-- 🟦 file preview pindah ke luar form agar tampil di bawahnya -->
+    <div id="file-preview" class="file-preview"></div>
+
   </div>
 
   <script src="script.js"></script>
